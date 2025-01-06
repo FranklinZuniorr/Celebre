@@ -1,17 +1,18 @@
 package celebre.services;
-
-import celebre.models.PaymentModel;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
-import java.util.ArrayList;
 
-
-import java.util.List;
+import celebre.helpers.Helpers;
 
 @Service
 public class PaymentService {
 
-    public String payment() {
-        return "payment";
+    @Autowired
+    Helpers helpers;
+
+    public ResponseEntity<String> payment() {
+        return helpers.<String>generateResponse(HttpStatus.OK, "Paymen success!");
     }
 }
