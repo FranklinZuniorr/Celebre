@@ -31,11 +31,12 @@ public class PaymentController {
         @RequestParam(required = true) String description,
         @RequestParam(required = true) String youtubeUrl,
         @RequestParam(required = true) String endPhrase,
-        @RequestParam(required = true) String imageLink
+        @RequestParam(required = true) String imageLink,
+        @RequestParam(required = true) String email
     ) {
         try {
             MetadataPaymentProductBaseDto metadataPaymentProductBase = new MetadataPaymentProductBaseDto(
-                celebrationTitle, personName, description, youtubeUrl, endPhrase, imageLink
+                celebrationTitle, personName, description, youtubeUrl, endPhrase, imageLink, email
             );
             return paymentService.checkoutProductBase(metadataPaymentProductBase);
         } catch (Exception e) {

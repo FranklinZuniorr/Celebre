@@ -12,6 +12,8 @@ import com.stripe.model.checkout.Session;
 import com.stripe.param.checkout.SessionCreateParams;
 
 import celebre.entities.MessageResponseDto;
+import celebre.entities.PaymentConfirmationProductBaseDto;
+import celebre.enums.EnumEventType;
 import celebre.entities.MetadataPaymentProductBaseDto;
 import celebre.entities.PaymentCheckoutUrlDto;
 import celebre.helpers.Helpers;
@@ -51,6 +53,7 @@ public class PaymentService {
             metadata.put("youtubeUrl", metadataPaymentProductBase.getYoutubeUrl());
             metadata.put("endPhrase", metadataPaymentProductBase.getEndPhrase());
             metadata.put("imageLink", metadataPaymentProductBase.getImageLink());
+            metadata.put("email", metadataPaymentProductBase.getEmail());
 
             SessionCreateParams params =
             SessionCreateParams.builder()
@@ -73,21 +76,28 @@ public class PaymentService {
         }
     }
 
-    public ResponseEntity<Object> handlePaymentConfirmationProductBase(String payload) {
+    public ResponseEntity<Object> handlePaymentConfirmationProductBase(String payloadMetadataJson) {
         try {
-            
+            Gson gson = new Gson();
 
-            System.out.println(payload);
+            PaymentConfirmationProductBaseDto paymentConfirmationProductBaseDto = 
+            gson.fromJson(payloadMetadataJson, PaymentConfirmationProductBaseDto.class);
+            MetadataPaymentProductBaseDto metadata = paymentConfirmationProductBaseDto.getdata().getObject().getMetadata();
+
+            EnumEventType eventType = paymentConfirmationProductBaseDto.getTypeFromString();
+
+            switch (eventType) {
+                case CHECKOUT_SESSION_COMPLETED:
+                    helpers.sendEmail(metadata.getEmail(), "Compra realizada com sucesso!", "Aqui está a sua página: https...");
+                    break;
+                default:
+                    break;
+            }
+
             return helpers.<Object>generateResponse(HttpStatus.OK, new MessageResponseDto("Evento processado com sucesso"));
         } catch (Exception e) {
             logger.severe("Error processing webhook: " + e.getMessage());
             return helpers.<Object>generateResponse(HttpStatus.INTERNAL_SERVER_ERROR, new MessageResponseDto("Erro ao processar o evento"));
         }
     }
-
-    /* private void handlePaymentIntentSucceeded(PaymentIntent paymentIntent) {
-        // Lógica para quando o PaymentIntent for bem-sucedido
-        logger.info("PaymentIntent succeeded: " + paymentIntent.getId());
-        // Aqui você pode atualizar o estado do pedido, notificar o cliente, etc.
-    } */
 }

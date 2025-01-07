@@ -7,6 +7,7 @@ public class MetadataPaymentProductBaseDto {
     private String youtubeUrl;
     private String endPhrase;
     private String imageLink;
+    private String email;
 
     public MetadataPaymentProductBaseDto 
         (
@@ -15,7 +16,8 @@ public class MetadataPaymentProductBaseDto {
             String description,
             String youtubeUrl,
             String endPhrase,
-            String imageLink
+            String imageLink,
+            String email
         ) {
             this.celebrationTitle = celebrationTitle;
             this.setPersonName(personName);
@@ -23,6 +25,7 @@ public class MetadataPaymentProductBaseDto {
             this.youtubeUrl = youtubeUrl;
             this.endPhrase = endPhrase;
             this.imageLink = imageLink;
+            this.email = email;
         }
 
     public String getCelebrationTitle() {
@@ -74,6 +77,14 @@ public class MetadataPaymentProductBaseDto {
 
     public void setImageLink(String imageLink) {
         this.imageLink = imageLink;
+    }
+
+    public String getEmail() {
+        return email;
+    }
+
+    public void setEmail(String email) {
+        this.email = email;
     }
 }
 
