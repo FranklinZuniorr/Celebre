@@ -14,8 +14,8 @@ public class PaymentController {
     @Autowired
     private PaymentService paymentService;
 
-    @GetMapping
-    public ResponseEntity<String> pay() {
-        return paymentService.payment();
+    @GetMapping("/checkout-product-base")
+    public ResponseEntity<Object> checkoutProductBase() {
+        return paymentService.checkoutProductBase();
     }
 }
