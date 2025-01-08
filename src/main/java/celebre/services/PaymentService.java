@@ -17,6 +17,8 @@ import celebre.enums.EnumEventType;
 import celebre.entities.MetadataPaymentProductBaseDto;
 import celebre.entities.PaymentCheckoutUrlDto;
 import celebre.helpers.Helpers;
+import celebre.models.Celebration;
+import celebre.repositories.CelebrationRepository;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -29,6 +31,9 @@ public class PaymentService {
 
     @Autowired
     Helpers helpers;
+
+    @Autowired
+    CelebrationRepository celebrationRepository;
 
     @Value("${success.url}")
     private String successUrl;
@@ -89,6 +94,17 @@ public class PaymentService {
             switch (eventType) {
                 case CHECKOUT_SESSION_COMPLETED:
                     helpers.sendEmail(metadata.getEmail(), "Compra realizada com sucesso!", "Aqui está a sua página: https...");
+
+                    Celebration newCelebration = new Celebration(
+                        metadata.getCelebrationTitle(),
+                        metadata.getPersonName(),
+                        metadata.getDescription(),
+                        metadata.getYoutubeUrl(),
+                        metadata.getEndPhrase(),
+                        metadata.getImageLink(),
+                        metadata.getEmail()
+                    );
+                    celebrationRepository.insertCelebration(newCelebration);
                     break;
                 default:
                     break;
