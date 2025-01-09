@@ -22,12 +22,9 @@ import celebre.repositories.CelebrationRepository;
 
 import java.util.HashMap;
 import java.util.Map;
-import java.util.logging.Logger;
 
 @Service
 public class PaymentService {
-
-    private static final Logger logger = Logger.getLogger(PaymentService.class.getName());
 
     @Autowired
     Helpers helpers;
@@ -44,8 +41,11 @@ public class PaymentService {
     @Value("${base.product.id}")
     private String baseProductId;
 
-    @Value("${stripe.api.key}")
+    @Value("${stripe.api.check.key}")
     private String stripeApiKey;
+
+    @Value("${celebre.front.base.url}")
+    private String celebreFrontBaseUrl;
 
     public ResponseEntity<Object> checkoutProductBase(MetadataPaymentProductBaseDto metadataPaymentProductBase) {
         try {
@@ -93,8 +93,6 @@ public class PaymentService {
 
             switch (eventType) {
                 case CHECKOUT_SESSION_COMPLETED:
-                    helpers.sendEmail(metadata.getEmail(), "Compra realizada com sucesso!", "Aqui está a sua página: https...");
-
                     Celebration newCelebration = new Celebration(
                         metadata.getCelebrationTitle(),
                         metadata.getPersonName(),
@@ -104,7 +102,13 @@ public class PaymentService {
                         metadata.getImageLink(),
                         metadata.getEmail()
                     );
-                    celebrationRepository.insertCelebration(newCelebration);
+                    Celebration celebration = celebrationRepository.insertCelebration(newCelebration);
+
+                    helpers.sendEmail(
+                        metadata.getEmail(), 
+                    "Compra realizada com sucesso!", 
+                    "Aqui está a sua página: https..." + celebreFrontBaseUrl + celebration.getId()
+                    );
                     break;
                 default:
                     break;
@@ -112,7 +116,6 @@ public class PaymentService {
 
             return helpers.<Object>generateResponse(HttpStatus.OK, new MessageResponseDto("Evento processado com sucesso"));
         } catch (Exception e) {
-            logger.severe("Error processing webhook: " + e.getMessage());
             return helpers.<Object>generateResponse(HttpStatus.INTERNAL_SERVER_ERROR, new MessageResponseDto("Erro ao processar o evento"));
         }
     }
