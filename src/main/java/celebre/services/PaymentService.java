@@ -11,6 +11,7 @@ import com.stripe.Stripe;
 import com.stripe.model.checkout.Session;
 import com.stripe.param.checkout.SessionCreateParams;
 
+import celebre.constants.HtmlPaymentConfirmation;
 import celebre.entities.MessageResponseDto;
 import celebre.entities.PaymentConfirmationProductBaseDto;
 import celebre.enums.EnumEventType;
@@ -28,6 +29,9 @@ public class PaymentService {
 
     @Autowired
     Helpers helpers;
+
+    @Autowired
+    HtmlPaymentConfirmation constants;
 
     @Autowired
     CelebrationRepository celebrationRepository;
@@ -103,11 +107,14 @@ public class PaymentService {
                         metadata.getEmail()
                     );
                     Celebration celebration = celebrationRepository.insertCelebration(newCelebration);
+                    String email = constants.getHtmlPaymentConfirmation(celebreFrontBaseUrl + celebration.getId());
+
+                    System.out.println(email);
 
                     helpers.sendEmail(
                         metadata.getEmail(), 
                     "Compra realizada com sucesso!", 
-                    "Aqui está a sua página: https..." + celebreFrontBaseUrl + celebration.getId()
+                        email
                     );
                     break;
                 default:
@@ -116,6 +123,7 @@ public class PaymentService {
 
             return helpers.<Object>generateResponse(HttpStatus.OK, new MessageResponseDto("Evento processado com sucesso"));
         } catch (Exception e) {
+            System.out.println(e);
             return helpers.<Object>generateResponse(HttpStatus.INTERNAL_SERVER_ERROR, new MessageResponseDto("Erro ao processar o evento"));
         }
     }
