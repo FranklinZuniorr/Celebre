@@ -106,7 +106,7 @@ public class PaymentService {
                         metadata.getImageLink(),
                         metadata.getEmail()
                     );
-                    Celebration celebration = celebrationRepository.insertCelebration(newCelebration);
+                    Celebration celebration = celebrationRepository.insertCelebrationProductBase(newCelebration);
                     String email = constants.getHtmlPaymentConfirmation(celebreFrontBaseUrl + celebration.getId());
 
                     System.out.println(email);

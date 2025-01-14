@@ -14,11 +14,11 @@ public class CelebrationRepository {
     @Autowired
     private InterfaceCelebrationRepository interfaceCelebrationRepository;
 
-    public Celebration insertCelebration(Celebration celebration) {
+    public Celebration insertCelebrationProductBase(Celebration celebration) {
         return interfaceCelebrationRepository.insert(celebration);
     }    
 
-    public Celebration getCelebration(String id) {
+    public Celebration getCelebrationProductBase(String id) {
         try {
             Optional<Celebration> optionalCelebration = interfaceCelebrationRepository.findById(id);
             

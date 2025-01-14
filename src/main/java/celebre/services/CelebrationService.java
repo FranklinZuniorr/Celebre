@@ -22,9 +22,9 @@ public class CelebrationService {
     @Autowired
     CelebrationRepository celebrationRepository;
 
-    public ResponseEntity<Object> getCelebration(String id) {
+    public ResponseEntity<Object> getCelebrationProductBase(String id) {
         try {
-            Celebration celebration = celebrationRepository.getCelebration(id);
+            Celebration celebration = celebrationRepository.getCelebrationProductBase(id);
             Map<String, Celebration> payload = new HashMap<>();
             payload.put("celebration", celebration);
 

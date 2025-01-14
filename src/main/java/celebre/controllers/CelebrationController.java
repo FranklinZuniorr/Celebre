@@ -19,8 +19,8 @@ public class CelebrationController {
     @Autowired
     private CelebrationService celebrationService;
 
-    @GetMapping("/{id}")
-    public ResponseEntity<Object> getCelebration(@PathVariable(required = true) String id) {
-        return celebrationService.getCelebration(id);
+    @GetMapping("/product-base/{id}")
+    public ResponseEntity<Object> getCelebrationProductBase(@PathVariable(required = true) String id) {
+        return celebrationService.getCelebrationProductBase(id);
     }
 }
