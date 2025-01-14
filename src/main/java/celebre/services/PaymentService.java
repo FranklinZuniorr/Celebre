@@ -87,10 +87,8 @@ public class PaymentService {
 
     public ResponseEntity<Object> handlePaymentConfirmationProductBase(String payloadMetadataJson) {
         try {
-            Gson gson = new Gson();
-
-            PaymentConfirmationProductBaseDto paymentConfirmationProductBaseDto = 
-            gson.fromJson(payloadMetadataJson, PaymentConfirmationProductBaseDto.class);
+            PaymentConfirmationProductBaseDto paymentConfirmationProductBaseDto = helpers.normalizeJsonToObject(
+                payloadMetadataJson, PaymentConfirmationProductBaseDto.class);
             MetadataPaymentProductBaseDto metadata = paymentConfirmationProductBaseDto.getdata().getObject().getMetadata();
 
             EnumEventType eventType = paymentConfirmationProductBaseDto.getTypeFromString();
@@ -108,8 +106,6 @@ public class PaymentService {
                     );
                     Celebration celebration = celebrationRepository.insertCelebrationProductBase(newCelebration);
                     String email = constants.getHtmlPaymentConfirmation(celebreFrontBaseUrl + celebration.getId());
-
-                    System.out.println(email);
 
                     helpers.sendEmail(
                         metadata.getEmail(), 

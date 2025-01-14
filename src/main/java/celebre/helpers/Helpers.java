@@ -1,5 +1,4 @@
 package celebre.helpers;
-
 import com.google.gson.Gson;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -9,7 +8,6 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.MediaType;
-
 import jakarta.servlet.http.HttpServletRequest;
 import java.util.HashMap;
 import java.util.Map;
@@ -58,6 +56,15 @@ public class Helpers {
     public <T> ResponseEntity<T> generateResponse(HttpStatus status, T body) {
         return new ResponseEntity<>(body, status);
     }
+
+    public <GenericClass> GenericClass normalizeJsonToObject(String payloadJson, Class<GenericClass> genericClass) {
+        Gson gson = new Gson();
+    
+        GenericClass normalizedObject = gson.fromJson(payloadJson, genericClass);
+    
+        return normalizedObject;
+    }
+    
 
     public String getCurrentDomain(HttpServletRequest request) {
         String scheme = request.getScheme();
