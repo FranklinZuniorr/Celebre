@@ -36,7 +36,7 @@ public class MetadataPaymentProductBaseDto {
         if (celebrationTitle == null || celebrationTitle.trim().isEmpty()) {
             throw new IllegalArgumentException("Celebration title cannot be empty or null");
         }
-        if (celebrationTitle.length() <= 5) {
+        if (celebrationTitle.length() < 5) {
             throw new IllegalArgumentException("Celebration title should have at minimum five characters");
         }
         this.celebrationTitle = celebrationTitle;
@@ -50,7 +50,7 @@ public class MetadataPaymentProductBaseDto {
         if (personName == null || personName.trim().isEmpty()) {
             throw new IllegalArgumentException("Person name cannot be empty or null");
         }
-        if (personName.length() <= 3) {
+        if (personName.length() < 3) {
             throw new IllegalArgumentException("Person name should have at minimum three characters");
         }
         this.personName = personName;
@@ -64,7 +64,7 @@ public class MetadataPaymentProductBaseDto {
         if (description == null || description.trim().isEmpty()) {
             throw new IllegalArgumentException("Description cannot be empty or null");
         }
-        if (description.length() <= 10) {
+        if (description.length() < 10) {
             throw new IllegalArgumentException("Description should have at minimum ten characters");
         }
         this.description = description;
@@ -96,7 +96,7 @@ public class MetadataPaymentProductBaseDto {
         if (endPhrase == null || endPhrase.trim().isEmpty()) {
             throw new IllegalArgumentException("End phrase cannot be empty or null");
         }
-        if (endPhrase.length() <= 5) {
+        if (endPhrase.length() < 5) {
             throw new IllegalArgumentException("End phrase should have at minimum five characters");
         }
         this.endPhrase = endPhrase;
@@ -110,7 +110,7 @@ public class MetadataPaymentProductBaseDto {
         if (imageLink == null || imageLink.trim().isEmpty()) {
             throw new IllegalArgumentException("Image link cannot be empty or null");
         }
-        if (imageLink.length() <= 20) {
+        if (imageLink.length() < 20) {
             throw new IllegalArgumentException("Image link should have at minimum twenty characters");
         }
         this.imageLink = imageLink;
