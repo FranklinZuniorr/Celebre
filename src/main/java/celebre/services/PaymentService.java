@@ -54,6 +54,9 @@ public class PaymentService {
     public ResponseEntity<Object> checkoutProductBase(MetadataPaymentProductBaseDto metadataPaymentProductBase) {
         try {
             Stripe.apiKey = stripeApiKey;
+            String secureImageUrl = helpers.uploadImageBase64ToCloudinary(metadataPaymentProductBase.getImageLink());
+
+            System.out.println(secureImageUrl);
 
             Map<String, String> metadata = new HashMap<>();
             metadata.put("celebrationTitle", metadataPaymentProductBase.getCelebrationTitle());
@@ -61,7 +64,7 @@ public class PaymentService {
             metadata.put("description", metadataPaymentProductBase.getDescription());
             metadata.put("youtubeUrl", metadataPaymentProductBase.getYoutubeUrl());
             metadata.put("endPhrase", metadataPaymentProductBase.getEndPhrase());
-            metadata.put("imageLink", metadataPaymentProductBase.getImageLink());
+            metadata.put("imageLink", secureImageUrl);
             metadata.put("email", metadataPaymentProductBase.getEmail());
 
             SessionCreateParams params =
@@ -119,7 +122,6 @@ public class PaymentService {
 
             return helpers.<Object>generateResponse(HttpStatus.OK, new MessageResponseDto("Evento processado com sucesso"));
         } catch (Exception e) {
-            System.out.println(e);
             return helpers.<Object>generateResponse(HttpStatus.INTERNAL_SERVER_ERROR, new MessageResponseDto("Erro ao processar o evento"));
         }
     }
