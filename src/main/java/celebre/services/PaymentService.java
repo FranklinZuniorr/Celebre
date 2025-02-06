@@ -53,10 +53,9 @@ public class PaymentService {
 
     public ResponseEntity<Object> checkoutProductBase(MetadataPaymentProductBaseDto metadataPaymentProductBase) {
         try {
+            System.out.println(metadataPaymentProductBase.getImageLink());
             Stripe.apiKey = stripeApiKey;
             String secureImageUrl = helpers.uploadImageBase64ToCloudinary(metadataPaymentProductBase.getImageLink());
-
-            System.out.println(secureImageUrl);
 
             Map<String, String> metadata = new HashMap<>();
             metadata.put("celebrationTitle", metadataPaymentProductBase.getCelebrationTitle());
