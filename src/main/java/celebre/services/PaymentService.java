@@ -5,12 +5,9 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
-
-import com.google.gson.Gson;
 import com.stripe.Stripe;
 import com.stripe.model.checkout.Session;
 import com.stripe.param.checkout.SessionCreateParams;
-
 import celebre.constants.HtmlPaymentConfirmation;
 import celebre.entities.MessageResponseDto;
 import celebre.entities.PaymentConfirmationProductBaseDto;
@@ -20,7 +17,6 @@ import celebre.entities.PaymentCheckoutUrlDto;
 import celebre.helpers.Helpers;
 import celebre.models.Celebration;
 import celebre.repositories.CelebrationRepository;
-
 import java.util.HashMap;
 import java.util.Map;
 
@@ -53,7 +49,6 @@ public class PaymentService {
 
     public ResponseEntity<Object> checkoutProductBase(MetadataPaymentProductBaseDto metadataPaymentProductBase) {
         try {
-            System.out.println(metadataPaymentProductBase.getImageLink());
             Stripe.apiKey = stripeApiKey;
             String secureImageUrl = helpers.uploadImageBase64ToCloudinary(metadataPaymentProductBase.getImageLink());
 
@@ -82,7 +77,6 @@ public class PaymentService {
 
             return helpers.<Object>generateResponse(HttpStatus.OK, new PaymentCheckoutUrlDto(session.getUrl()));
         } catch (Exception e) {
-            System.out.println(e);
             return helpers.<Object>generateResponse(HttpStatus.INTERNAL_SERVER_ERROR, new MessageResponseDto("Não foi possível gerar o link de pagamento!"));
         }
     }
@@ -107,7 +101,7 @@ public class PaymentService {
                         metadata.getEmail()
                     );
                     Celebration celebration = celebrationRepository.insertCelebrationProductBase(newCelebration);
-                    String email = constants.getHtmlPaymentConfirmation(celebreFrontBaseUrl + celebration.getId());
+                    String email = constants.getHtmlPaymentConfirmation(celebreFrontBaseUrl + "/celebracao/" + celebration.getId());
 
                     helpers.sendEmail(
                         metadata.getEmail(), 
