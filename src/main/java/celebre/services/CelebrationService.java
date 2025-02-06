@@ -30,7 +30,6 @@ public class CelebrationService {
 
             return helpers.<Object>generateResponse(HttpStatus.OK, payload);
         } catch (Exception e) {
-            System.out.println(e);
             return helpers.<Object>generateResponse(HttpStatus.BAD_REQUEST, new MessageResponseDto("A celebração não foi encontrada!"));
         }
     }
