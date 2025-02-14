@@ -6,6 +6,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
 import celebre.entities.MessageResponseDto;
+import celebre.entities.UpdateCelebrationDto;
 import celebre.helpers.Helpers;
 import celebre.models.Celebration;
 import celebre.repositories.CelebrationRepository;
@@ -31,6 +32,18 @@ public class CelebrationService {
             return helpers.<Object>generateResponse(HttpStatus.OK, payload);
         } catch (Exception e) {
             return helpers.<Object>generateResponse(HttpStatus.BAD_REQUEST, new MessageResponseDto("A celebração não foi encontrada!"));
+        }
+    }
+
+    public ResponseEntity<Object> putCelebrationProductBase(String id, UpdateCelebrationDto editedCelebration) {
+        try {
+            Celebration celebration = celebrationRepository.putCelebrationProductBase(id, editedCelebration);
+            Map<String, Celebration> payload = new HashMap<>();
+            payload.put("celebration", celebration);
+
+            return helpers.<Object>generateResponse(HttpStatus.OK, payload); 
+        } catch (Exception e) {
+            return helpers.<Object>generateResponse(HttpStatus.BAD_REQUEST, new MessageResponseDto("Não foi possível editar a celebração!"));
         }
     }
 }
