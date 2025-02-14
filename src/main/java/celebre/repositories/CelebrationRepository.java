@@ -1,11 +1,7 @@
 package celebre.repositories;
-
-import java.util.Objects;
 import java.util.Optional;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
-
 import celebre.entities.UpdateCelebrationDto;
 import celebre.models.Celebration;
 import celebre.repositories.interfaces.InterfaceCelebrationRepository;
@@ -41,27 +37,8 @@ public class CelebrationRepository {
 
         if (celebrationExistence.isPresent()) {
             Celebration celebration = celebrationExistence.get();
-            celebration.setCelebrationTitle(
-                Objects.requireNonNullElse(editedCelebration.getCelebrationTitle(), celebration.getCelebrationTitle())
-            );
-            celebration.setDescription(
-                Objects.requireNonNullElse(editedCelebration.getDescription(), celebration.getDescription())
-            );
-            celebration.setEmail(
-                Objects.requireNonNullElse(editedCelebration.getEmail(), celebration.getEmail())
-            );
-            celebration.setEndPhrase(
-                Objects.requireNonNullElse(editedCelebration.getEndPhrase(), celebration.getEndPhrase())
-            );
-            celebration.setImageLink(
-                Objects.requireNonNullElse(editedCelebration.getImageLink(), celebration.getImageLink())
-            );
-            celebration.setPersonName(
-                Objects.requireNonNullElse(editedCelebration.getPersonName(), celebration.getPersonName())
-            );
-            celebration.setYoutubeUrl(
-                Objects.requireNonNullElse(editedCelebration.getYoutubeUrl(), celebration.getYoutubeUrl())
-            );
+
+            editedCelebration.applyUpdates(celebration);
 
             return interfaceCelebrationRepository.save(celebration);
         } else {

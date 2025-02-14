@@ -1,7 +1,6 @@
 package celebre.controllers;
 
 import celebre.entities.MessageResponseDto;
-import celebre.entities.MetadataPaymentProductBaseDto;
 import celebre.entities.UpdateCelebrationDto;
 import celebre.helpers.Helpers;
 import celebre.services.CelebrationService;

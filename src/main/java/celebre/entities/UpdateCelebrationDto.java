@@ -1,5 +1,7 @@
 package celebre.entities;
 
+import celebre.models.Celebration;
+
 public class UpdateCelebrationDto {
     private String celebrationTitle;
     private String personName;
@@ -28,6 +30,16 @@ public class UpdateCelebrationDto {
             this.setImageLink(imageLink);
             this.setEmail(email);
         }
+
+    public void applyUpdates(Celebration celebration) {
+        if (celebrationTitle != null) celebration.setCelebrationTitle(celebrationTitle);
+        if (description != null) celebration.setDescription(description);
+        if (email != null) celebration.setEmail(email);
+        if (endPhrase != null) celebration.setEndPhrase(endPhrase);
+        if (imageLink != null) celebration.setImageLink(imageLink);
+        if (personName != null) celebration.setPersonName(personName);
+        if (youtubeUrl != null) celebration.setYoutubeUrl(youtubeUrl);
+    }
 
     public String getCelebrationTitle() {
         return celebrationTitle;
